@@ -1,6 +1,11 @@
 #ifndef QUAD_H_INCLUDED
 #define QUAD_H_INCLUDED
 
+
+#include "Mesh.h"
+
+namespace Virtuoso{
+
 ///Constructs a triangle mesh with positions, normals, and texture coordinates.
 class Quad : public Mesh{
 
@@ -12,9 +17,9 @@ class Quad : public Mesh{
 
     ///Generate a quad given the min and max corners in the x-y plane.
     ///z = 0 for all vertices
-    Quad(float minX, float minY, maxX, maxY);
+    Quad(float minX, float minY, float maxX, float maxY);
 
 };
 
-
+}
 #endif // QUAD_H_INCLUDED

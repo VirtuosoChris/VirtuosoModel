@@ -2,7 +2,6 @@
 
 Virtuoso::Quad::Quad(){
 
-        ////\todo revise this so that we can have interleaved arrays
         Mesh::addAttribute("position",3);
 
         Mesh::addAttribute("texcoord",2);
@@ -40,7 +39,7 @@ Virtuoso::Quad::Quad(){
         Mesh::end();
 
 
-        Mesh::beginIndices(6);///\todo should take faces?
+        Mesh::beginIndices(6);
 
             Mesh::insertIndices(0,1,2);
             Mesh::insertIndices(2,3,0);

@@ -28,7 +28,7 @@ public:
 
     void write(std::ostream& out)const;
 
-    ///\todo what does this compile to if i use const char*
+
     AttributeArray& operator[] (const std::string& in) {
 
         std::vector<AttributeArray>::iterator it =
@@ -48,8 +48,6 @@ public:
     }
 
     void removeAttribute(const std::string& att){
-
-        ///\todo fast version of this
 
         std::vector<AttributeArray>::iterator it = std::find(attributes.begin(), attributes.end(),att);
 
@@ -87,15 +85,10 @@ public:
         read(in);
     }
 
-    void end(){ //set numVerts for mesh to be equal to that of the arrays, after making sure that
-        ///\todo valid bit for begin without end? or vice versa
-
-      //  std::cout<<"Validation pass "<<attributes.size()<<" attributes. \n";
-
+    void end(){
 
         if(!attributes.size())return;
 
-       // std::cout<<"verts : "<<attributes[0].numVerts()<<std::endl;
         numVerts = attributes[0].numVerts();
 
         for(unsigned int i = 1; i < attributes.size(); i++){
@@ -127,7 +120,6 @@ public:
         indexbuffer.reserve(reserveIndices + indexbuffer.size() );
     }
 
-////\todo proper inserter for case when triangles not primitive, etc etc
     void insertIndices(unsigned int a, unsigned int b, unsigned int c){
         indexedmesh=true;
         indexbuffer.push_back(a);

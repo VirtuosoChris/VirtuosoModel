@@ -1,12 +1,14 @@
-#include "StaticMesh.h"
+#include "GPUMesh.h"
 #include <stdexcept>
+
+namespace Virtuoso{
 
 GLuint& GPUMesh::operator[](const std::string& in){
     std::vector<std::string>::iterator it =
     std::find(attributenames.begin(), attributenames.end(),in);
 
     if(it == attributenames.end()){
-        throw std::runtime_error("attribute not present");///\todo throw name too
+        throw std::runtime_error("attribute not present");
     }
 
     int index =  std::distance(attributenames.begin(), it);
@@ -150,8 +152,6 @@ void GPUMesh::push()
 void GPUMesh::initialize(const Mesh& m/*, bool adj*/)//:adjacency(adj)
 {
 
-  //  modelingMatrix = Eigen::Matrix4f::Identity();
-  //  normalMatrix = Eigen::Matrix3f::Identity();
 
     vertexCount = m.numVerts;
     faceCount = m.numFaces;
@@ -176,12 +176,9 @@ void GPUMesh::initialize(const Mesh& m/*, bool adj*/)//:adjacency(adj)
 
         if(!nb)throw std::runtime_error("Could not allocate attribute buffer");
 
-        // attributenames.push_back(m.attributes[i].)
-
         vbos.push_back(nb);
         attributenames.push_back(m.attributes[i].name);
 
-        std::cout<<"m.attributes[i].name:"<<m.attributes[i].name<<std::endl;
 
         glBindBuffer(GL_ARRAY_BUFFER, nb);
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*m.attributes[i].components*m.numVerts, &(m.attributes[i].getArray()[0]), GL_STATIC_DRAW);
@@ -194,5 +191,8 @@ void GPUMesh::initialize(const Mesh& m/*, bool adj*/)//:adjacency(adj)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*3*m.numFaces, &(m.indexbuffer[0]), GL_STATIC_DRAW);
-//}
+
+}
+
+
 }

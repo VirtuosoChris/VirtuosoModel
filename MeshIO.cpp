@@ -1,4 +1,6 @@
-Mesh Virtuoso::VBO::loadMesh(std::istream& in)
+#include "MeshIO.h"
+/*
+Virtuoso::Mesh Virtuoso::VBO::loadMesh(std::istream& in)
 {
     Mesh rval;
 
@@ -23,3 +25,4 @@ Mesh Virtuoso::VBO::loadMesh(std::istream& in)
     }
 
 }
+*/

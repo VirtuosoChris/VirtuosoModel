@@ -6,9 +6,9 @@
 #include "GLShader.h"
 #include "SharedCounter.h"
 
-///\todo release gl resources
-///\todo if not initialize properly exception
-///\todo need the ability to initialize from pointers for streaming and shit
+
+namespace Virtuoso{
+
 class GPUMesh
 {
 
@@ -33,7 +33,7 @@ public:
 
     void initialize(std::istream& in);
 
-    StaticMesh() :vertexCount(0), faceCount(0){}
+    GPUMesh() :vertexCount(0), faceCount(0){}
 
     virtual ~GPUMesh();
 
@@ -75,5 +75,5 @@ public:
 
 };
 
-
+}
 #endif

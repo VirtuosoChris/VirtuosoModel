@@ -8,12 +8,12 @@ namespace Virtuoso{
 
 namespace VBO{
 
-    Mesh loadMesh(std::istream& in);
+   /* Mesh loadMesh(std::istream& in);
     GPUMesh loadMesh(std::istream& in);
 
     Mesh writeMesh(std::ostream& out);
     GPUMesh writeMesh(std::ostream& out);
-
+*/
     }
 }
 

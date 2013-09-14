@@ -1,5 +1,7 @@
 #include "Mesh.h"
 
+namespace Virtuoso{
+
 unsigned int Mesh::pointsperface(PrimitiveMode m)
 {
 
@@ -55,3 +57,4 @@ void Mesh::write(std::ostream& out)const
 
 
 
+}

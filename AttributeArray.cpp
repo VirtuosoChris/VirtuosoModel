@@ -1,7 +1,6 @@
 #include "AttributeArray.h"
 
 //constructor to construct an attribute array.
-///\todo should we just reserve the memory?
 AttributeArray::AttributeArray(std::string n, int comps,int vert)
 :
 arrayPtr(new std::vector<float>()),
@@ -12,7 +11,6 @@ components(comps)
 {
     (*arrayPtr).reserve(comps*vert);
 }
-///\todo why do we have the vertex count but not the numebr of components?  should be because vert ct is constant for a model
 AttributeArray::AttributeArray( int vert, std::istream& i)
 :
 arrayPtr(new std::vector<float>()),
@@ -33,7 +31,7 @@ void AttributeArray::read(int vertices,std::istream& in)
 
     in.read((char*) &namelength, sizeof(unsigned int));
 
-    std::vector<char> c_str(namelength,' ');// = new char[namelength]; ///\todo unnecessary?
+    std::vector<char> c_str(namelength,' ');
 
     in.read((char*)&(c_str[0]), sizeof(char)*namelength);
 
@@ -41,11 +39,10 @@ void AttributeArray::read(int vertices,std::istream& in)
 
     in.read((char*)&components, sizeof(unsigned int));
 
-    array.resize(components*vertices);// = new float[components * vertices];
+    array.resize(components*vertices);
 
     in.read((char*) &array[0], vertices*components*sizeof(float));
 
-    //log<<"loading attribute:"<<name<<" with "<<components<<" components per vertex"<<std::endl;
 
 }
 
