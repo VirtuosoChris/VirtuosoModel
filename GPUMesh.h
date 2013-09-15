@@ -47,15 +47,23 @@ protected:
     std::vector<GLuint> vbos;
     GLuint indexbuffer;
     std::vector<std::string> attributenames;
+    
+#ifdef GL_ES_BUILD
+    std::vector<GLuint> attributecomponents;
+#else
     GLuint vertex_array;
-
+#endif
+    
 public:
+
+#ifndef GL_ES_BUILD
 
     const GLuint& getVAOHandle()const
     {
         return vertex_array;
     }
-
+#endif
+    
     const std::vector<std::string>& getAttributeNames()const
     {
         return attributenames;

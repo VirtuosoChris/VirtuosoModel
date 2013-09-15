@@ -1,3 +1,5 @@
+
+
 #include "GPUMesh.h"
 #include <stdexcept>
 
@@ -16,7 +18,7 @@ GLuint& GPUMesh::operator[](const std::string& in){
     return vbos[index];
 }
 
-
+#ifndef GL_ES_BUILD
 void GPUMesh::initialize(std::istream& in)//:adjacency(false)
 {
 
@@ -125,7 +127,7 @@ void GPUMesh::initialize(std::istream& in)//:adjacency(false)
 
     }
 }
-
+#endif
 
 GPUMesh::~GPUMesh()
 {
@@ -134,37 +136,44 @@ GPUMesh::~GPUMesh()
 
         ///\todo test that they exist first
         glDeleteBuffers(vbos.size(), &vbos[0]);
+        
+#ifndef GL_ES_BUILD
         glDeleteVertexArrays(1, & vertex_array);
+#endif
+        
         glDeleteBuffers(1, & indexbuffer);
-    }
+    } 
 }
 
-void GPUMesh::push()
-{
-    //bind the geometry we want to use
-    glBindVertexArray(vertex_array);
-
-    glDrawElements(GL_TRIANGLES, 3*faceCount, GL_UNSIGNED_INT, 0);
-
-}
+    
+    
 
 
-void GPUMesh::initialize(const Mesh& m/*, bool adj*/)//:adjacency(adj)
+void GPUMesh::initialize(const Mesh& m)
 {
 
 
     vertexCount = m.numVerts;
     faceCount = m.numFaces;
 
+#ifndef GL_ES_BUILD
     glGenVertexArrays(1, &vertex_array);
+    
+    if(  !vertex_array) {
+        throw std::runtime_error("could not allocate VAO  ");
+    }
+#endif
+    
     glGenBuffers(1, & indexbuffer);
 
-    if(!vertex_array || !indexbuffer) {
-        throw std::runtime_error("could not allocate VBO or vertex array");
+    if(  !indexbuffer) {
+        throw std::runtime_error("could not allocate VBO  ");
     }
 
+    
+#ifndef GL_ES_BUILD
     glBindVertexArray(vertex_array);
-
+#endif
 
     //set the postions buffer
     for(unsigned int i = 0; i < m.attributes.size(); i++) {
@@ -179,7 +188,10 @@ void GPUMesh::initialize(const Mesh& m/*, bool adj*/)//:adjacency(adj)
         vbos.push_back(nb);
         attributenames.push_back(m.attributes[i].name);
 
-
+#ifdef GL_ES_BUILD
+        attributecomponents.push_back(m.attributes[i].components);
+#endif
+        
         glBindBuffer(GL_ARRAY_BUFFER, nb);
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*m.attributes[i].components*m.numVerts, &(m.attributes[i].getArray()[0]), GL_STATIC_DRAW);
         glVertexAttribPointer(i, m.attributes[i].components, GL_FLOAT, GL_FALSE, 0, 0);
@@ -195,4 +207,46 @@ void GPUMesh::initialize(const Mesh& m/*, bool adj*/)//:adjacency(adj)
 }
 
 
+    
+#ifndef GL_ES_BUILD
+
+    
+    void GPUMesh::push()
+    {
+        //bind the geometry we want to use
+        glBindVertexArray(vertex_array);
+        
+        glDrawElements(GL_TRIANGLES, 3*faceCount, GL_UNSIGNED_INT, 0);
+        
+    }
+
+#else
+    
+    void GPUMesh::push()
+    {
+        
+        //set the postions buffer
+        for(unsigned int i = 0; i < vbos.size(); i++) {
+            
+            
+            
+            glBindBuffer(GL_ARRAY_BUFFER, vbos[i]);
+           
+            glVertexAttribPointer(i, attributecomponents[i], GL_FLOAT, GL_FALSE, 0, 0);
+            
+            //glEnableVertexAttribArray(i);
+            
+        }
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
+
+        
+      //bind buffers, set attribute pointers
+        glDrawElements(GL_TRIANGLES, 3*faceCount, GL_UNSIGNED_INT, 0);
+        
+    }
+    
+#endif
+    
+    
 }
