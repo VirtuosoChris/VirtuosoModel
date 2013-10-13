@@ -240,7 +240,7 @@ void GPUMesh::initialize(const Mesh& m)
         
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
 
-        
+///\todo crash here on quit.  need to shut down gl shit
       //bind buffers, set attribute pointers
         glDrawElements(GL_TRIANGLES, 3*faceCount, GL_UNSIGNED_INT, 0);
         
