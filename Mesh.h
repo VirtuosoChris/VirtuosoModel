@@ -1,3 +1,5 @@
+//  Copyright (c) 2013 Christopher Pugh. All rights reserved.
+
 #ifndef VIRTUOSO_MESH_H
 #define VIRTUOSO_MESH_H
 

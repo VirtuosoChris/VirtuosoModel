@@ -1,3 +1,5 @@
+//  Copyright (c) 2013 Christopher Pugh. All rights reserved.
+
 #include "Mesh.h"
 
 namespace Virtuoso{

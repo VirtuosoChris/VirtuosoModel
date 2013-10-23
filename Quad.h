@@ -1,3 +1,5 @@
+//  Copyright (c) 2013 Christopher Pugh. All rights reserved.
+
 #ifndef QUAD_H_INCLUDED
 #define QUAD_H_INCLUDED
 
