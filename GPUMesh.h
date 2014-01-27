@@ -41,6 +41,9 @@ public:
 
     ///issue a draw call for this geometry
     void push();
+    
+    ///\todo hack
+    void drawPoints();
 
 
 protected:

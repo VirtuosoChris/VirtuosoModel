@@ -207,6 +207,29 @@ void GPUMesh::initialize(const Mesh& m)
 }
 
 
+void GPUMesh::drawPoints(){
+        //set the postions buffer
+    for(unsigned int i = 0; i < vbos.size(); i++) {
+            
+        
+        glBindBuffer(GL_ARRAY_BUFFER, vbos[i]);
+            
+        glVertexAttribPointer(i, attributecomponents[i], GL_FLOAT, GL_FALSE, 0, 0);
+            
+        //glEnableVertexAttribArray(i);
+            
+    }
+        
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
+        
+    ///\todo crash here on quit.  need to shut down gl shit
+    //bind buffers, set attribute pointers
+    //glDrawElements(GL_TRIANGLES, 3*faceCount, GL_UNSIGNED_INT, 0);
+    
+    glDrawArrays(GL_POINTS, 0, vertexCount);
+}
+    
+    
     
 #ifndef GL_ES_BUILD
 
@@ -215,7 +238,7 @@ void GPUMesh::initialize(const Mesh& m)
     {
         //bind the geometry we want to use
         glBindVertexArray(vertex_array);
-        
+        ///\todo 3???? points in tri
         glDrawElements(GL_TRIANGLES, 3*faceCount, GL_UNSIGNED_INT, 0);
         
     }
