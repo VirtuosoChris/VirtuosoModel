@@ -257,7 +257,7 @@ void GPUMesh::drawPoints(){
            
             glVertexAttribPointer(i, attributecomponents[i], GL_FLOAT, GL_FALSE, 0, 0);
             
-            //glEnableVertexAttribArray(i);
+            glEnableVertexAttribArray(i);
             
         }
         
