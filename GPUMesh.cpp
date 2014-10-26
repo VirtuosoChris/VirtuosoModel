@@ -5,6 +5,40 @@
 
 namespace Virtuoso{
 
+GPUMesh& GPUMesh::operator=(const GPUMesh& m)
+{
+    if(&m != this)
+    {
+        freeMesh();
+        vertexCount = m.vertexCount;
+        faceCount = m.faceCount;
+        copycount = m.copycount;
+        vbos = m.vbos;
+        indexbuffer = m.indexbuffer;
+        attributenames = m.attributenames;
+        
+        #ifdef GL_ES_BUILD
+            attributecomponents = m.attributecomponents;
+        #else
+            vertex_array = m.vertex_array;
+        #endif
+    }
+    
+    return *this;
+}
+
+void GPUMesh::freeMesh()
+{
+    ///\todo test that they exist first
+    glDeleteBuffers(vbos.size(), &vbos[0]);
+        
+    #ifndef GL_ES_BUILD
+        glDeleteVertexArrays(1, & vertex_array);
+    #endif
+        
+    glDeleteBuffers(1, & indexbuffer);
+}
+    
 GLuint& GPUMesh::operator[](const std::string& in){
     std::vector<std::string>::iterator it =
     std::find(attributenames.begin(), attributenames.end(),in);
@@ -129,24 +163,13 @@ void GPUMesh::initialize(std::istream& in)//:adjacency(false)
 }
 #endif
 
+    
 GPUMesh::~GPUMesh()
 {
-
     if(copycount.isUnique()) {
-
-        ///\todo test that they exist first
-        glDeleteBuffers(vbos.size(), &vbos[0]);
-        
-#ifndef GL_ES_BUILD
-        glDeleteVertexArrays(1, & vertex_array);
-#endif
-        
-        glDeleteBuffers(1, & indexbuffer);
+        freeMesh();
     } 
 }
-
-    
-    
 
 
 void GPUMesh::initialize(const Mesh& m)

@@ -30,6 +30,8 @@ public:
         initialize(m);
         return *this;
     }
+    
+    GPUMesh& operator=(const GPUMesh& m);
 
     void initialize(const Mesh& in);
 
@@ -45,6 +47,7 @@ public:
     ///\todo hack
     void drawPoints();
 
+    void freeMesh();
 
 protected:
 
