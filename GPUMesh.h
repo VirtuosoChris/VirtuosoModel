@@ -46,6 +46,8 @@ public:
     
     ///\todo hack
     void drawPoints();
+    
+    void drawLines();
 
     void freeMesh();
 
